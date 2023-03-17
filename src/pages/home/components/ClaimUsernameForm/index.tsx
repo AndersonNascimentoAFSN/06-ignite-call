@@ -6,6 +6,7 @@ import { ArrowRight } from 'phosphor-react'
 import { Button, Text, TextInput } from '@ignite-ui/react'
 
 import { Form, FormAnnotation } from './styles'
+import { useCallback, useEffect } from 'react'
 
 const claimUsernameFormSchema = z.object({
   username: z
@@ -24,7 +25,8 @@ export function ClaimUsernameForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    setFocus,
+    formState: { errors, isSubmitting },
   } = useForm<ClaimUsernameFormData>({
     resolver: zodResolver(claimUsernameFormSchema),
     defaultValues: {
@@ -32,13 +34,20 @@ export function ClaimUsernameForm() {
     },
   })
 
-  async function handleClaimUsername({ username }: ClaimUsernameFormData) {
-    console.log(username)
-  }
+  const handleClaimUsername = useCallback(
+    ({ username }: ClaimUsernameFormData) => {
+      console.log(username)
+    },
+    [],
+  )
 
   const usernameInputErrorMessage = errors?.username
     ? errors?.username?.message
     : 'Digite o nome do usuário desejado'
+
+  useEffect(() => {
+    setFocus('username')
+  }, [setFocus])
 
   return (
     <>
@@ -50,7 +59,7 @@ export function ClaimUsernameForm() {
           {...register('username')}
           autoComplete="off"
         />
-        <Button size="sm" type="submit">
+        <Button size="sm" type="submit" disabled={isSubmitting}>
           Reservar
           <ArrowRight />
         </Button>
