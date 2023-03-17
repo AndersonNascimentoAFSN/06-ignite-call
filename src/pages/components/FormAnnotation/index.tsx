@@ -9,7 +9,7 @@ type FormAnnotationProps = ComponentProps<typeof Text> & {
 export function FormAnnotation({ errorMessage, ...rest }: FormAnnotationProps) {
   return (
     <FormAnnotationContainer>
-      <FormError size="sm" /* css={{ color: '$white' }} */ {...rest}>
+      <FormError size="sm" {...rest}>
         {errorMessage}
       </FormError>
     </FormAnnotationContainer>
