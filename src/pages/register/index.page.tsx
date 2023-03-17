@@ -1,6 +1,7 @@
-import { useCallback } from 'react'
+import { useCallback, useEffect } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ArrowRight } from 'phosphor-react'
+import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 
 import { Button, Heading, MultiStep, Text, TextInput } from '@ignite-ui/react'
@@ -16,6 +17,7 @@ export default function Register() {
     register,
     formState: { errors, isSubmitting },
     handleSubmit,
+    setValue,
   } = useForm<RegisterFormData>({
     resolver: zodResolver(registerFormSchema),
     defaultValues: {
@@ -30,6 +32,14 @@ export default function Register() {
     },
     [],
   )
+
+  const router = useRouter()
+
+  useEffect(() => {
+    if (router.query?.username) {
+      setValue('username', String(router.query?.username))
+    }
+  }, [router.query?.username, setValue])
 
   return (
     <Container>

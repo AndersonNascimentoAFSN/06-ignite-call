@@ -7,6 +7,7 @@ import { Button, Text, TextInput } from '@ignite-ui/react'
 
 import { Form, FormAnnotation } from './styles'
 import { useCallback, useEffect } from 'react'
+import { useRouter } from 'next/router'
 
 const claimUsernameFormSchema = z.object({
   username: z
@@ -22,6 +23,8 @@ const claimUsernameFormSchema = z.object({
 type ClaimUsernameFormData = z.infer<typeof claimUsernameFormSchema>
 
 export function ClaimUsernameForm() {
+  const router = useRouter()
+
   const {
     register,
     handleSubmit,
@@ -35,10 +38,12 @@ export function ClaimUsernameForm() {
   })
 
   const handleClaimUsername = useCallback(
-    ({ username }: ClaimUsernameFormData) => {
+    async ({ username }: ClaimUsernameFormData) => {
       console.log(username)
+
+      await router.push(`/register?username=${username}`)
     },
-    [],
+    [router],
   )
 
   const usernameInputErrorMessage = errors?.username
