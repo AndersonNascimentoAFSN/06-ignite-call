@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form'
 
 import { Button, Heading, MultiStep, Text, TextInput } from '@ignite-ui/react'
 
-import { FormAnnotation } from '../components/FormAnnotation'
+import { FormAnnotation } from '../../components/FormAnnotation'
 
 import { RegisterFormData, registerFormSchema } from './validationsForm'
 
