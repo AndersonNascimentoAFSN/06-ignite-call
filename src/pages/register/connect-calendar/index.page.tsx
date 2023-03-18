@@ -1,36 +1,14 @@
-import { useCallback } from 'react'
+import { signIn } from 'next-auth/react'
+
 import { ArrowRight } from 'phosphor-react'
-import { useRouter } from 'next/router'
 
 import { Button, Heading, MultiStep, Text } from '@ignite-ui/react'
 
-import { api } from '@/lib/axios'
-
 import { Container, Header } from '../styles'
 
-import { AxiosError } from 'axios'
 import { ConnectBox, ConnectItem } from './styles'
 
-export default function Register() {
-  // const router = useRouter()
-
-  // const handleRegisterProfile = useCallback(
-  //   async ({ fullName, username }: RegisterFormData) => {
-  //     try {
-  //     } catch (error) {
-  //       /*   if (error instanceof AxiosError && error?.response?.data?.message) {
-  //         alert(error?.response?.data?.message)
-  //       } */
-  //       if (error instanceof AxiosError && error?.message) {
-  //         alert(error?.message)
-  //       } else {
-  //         console.log(error)
-  //       }
-  //     }
-  //   },
-  //   [],
-  // )
-
+export default function ConnectCalendar() {
   return (
     <Container>
       <Header>
@@ -47,7 +25,11 @@ export default function Register() {
       <ConnectBox>
         <ConnectItem>
           <Text>Google Calendar</Text>
-          <Button variant="secondary" size="sm">
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={() => signIn('google')}
+          >
             Conectar
             <ArrowRight />
           </Button>

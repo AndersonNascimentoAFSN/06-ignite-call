@@ -10,7 +10,7 @@ import { api } from '@/lib/axios'
 
 import { FormAnnotation } from '../../components/FormAnnotation'
 
-import { RegisterFormData, registerFormSchema } from './validationsForm'
+import { RegisterFormData, registerFormSchema } from './registerFormSchema'
 
 import { Container, Form, Header } from './styles'
 import { AxiosError } from 'axios'
@@ -41,9 +41,6 @@ export default function Register() {
 
         await router.push('/register/connect-calendar')
       } catch (error) {
-        /*   if (error instanceof AxiosError && error?.response?.data?.message) {
-          alert(error?.response?.data?.message)
-        } */
         if (error instanceof AxiosError && error?.message) {
           alert(error?.message)
         } else {
