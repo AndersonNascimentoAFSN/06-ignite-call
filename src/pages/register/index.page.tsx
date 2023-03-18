@@ -6,11 +6,14 @@ import { useForm } from 'react-hook-form'
 
 import { Button, Heading, MultiStep, Text, TextInput } from '@ignite-ui/react'
 
+import { api } from '@/lib/axios'
+
 import { FormAnnotation } from '../../components/FormAnnotation'
 
 import { RegisterFormData, registerFormSchema } from './validationsForm'
 
 import { Container, Form, Header } from './styles'
+import { AxiosError } from 'axios'
 
 export default function Register() {
   const {
@@ -27,8 +30,22 @@ export default function Register() {
   })
 
   const handleRegisterProfile = useCallback(
-    ({ fullName, username }: RegisterFormData) => {
-      console.log(fullName, username)
+    async ({ fullName, username }: RegisterFormData) => {
+      try {
+        await api.post('/users', {
+          name: fullName,
+          username,
+        })
+      } catch (error) {
+        /*   if (error instanceof AxiosError && error?.response?.data?.message) {
+          alert(error?.response?.data?.message)
+        } */
+        if (error instanceof AxiosError && error?.message) {
+          alert(error?.message)
+        } else {
+          console.log(error)
+        }
+      }
     },
     [],
   )
@@ -65,7 +82,7 @@ export default function Register() {
           />
 
           {errors?.username && (
-            <FormAnnotation errorMessage={errors.username.message} />
+            <FormAnnotation errorMessage={errors?.username.message} />
           )}
         </label>
 
@@ -78,7 +95,7 @@ export default function Register() {
           />
 
           {errors?.fullName && (
-            <FormAnnotation errorMessage={errors.fullName.message} />
+            <FormAnnotation errorMessage={errors?.fullName.message} />
           )}
         </label>
 
