@@ -16,6 +16,8 @@ import { Container, Form, Header } from './styles'
 import { AxiosError } from 'axios'
 
 export default function Register() {
+  const router = useRouter()
+
   const {
     register,
     formState: { errors, isSubmitting },
@@ -36,6 +38,8 @@ export default function Register() {
           name: fullName,
           username,
         })
+
+        await router.push('/register/connect-calendar')
       } catch (error) {
         /*   if (error instanceof AxiosError && error?.response?.data?.message) {
           alert(error?.response?.data?.message)
@@ -47,10 +51,8 @@ export default function Register() {
         }
       }
     },
-    [],
+    [router],
   )
-
-  const router = useRouter()
 
   useEffect(() => {
     if (router.query?.username) {
