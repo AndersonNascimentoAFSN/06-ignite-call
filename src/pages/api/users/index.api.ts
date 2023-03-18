@@ -1,5 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { setCookie } from 'nookies'
 
 import { prisma } from '@/lib/prisma'
 
@@ -11,10 +12,10 @@ export default async function handler(
 ) {
   try {
     const createUserBodySchema = z.object({
-      name: z
+      username: z
         .string({
-          required_error: 'Nome é obrigatório',
-          invalid_type_error: 'Nome deve ser uma string',
+          required_error: 'Nome de usuário é obrigatório',
+          invalid_type_error: 'Nome de usuário deve ser uma string',
         })
         .min(3, {
           message: 'O nome do usuário precisa ter no mínimo 3 letras.',
@@ -24,10 +25,10 @@ export default async function handler(
           message: 'O nome do usuário pode ter apenas letras e hifens.',
         })
         .transform((username) => username.toLowerCase()),
-      username: z
+      name: z
         .string({
-          required_error: 'Nome de usuário é obrigatório',
-          invalid_type_error: 'Nome de usuário deve ser uma string',
+          required_error: 'Nome é obrigatório',
+          invalid_type_error: 'Nome deve ser uma string',
         })
         .min(3, { message: 'O nome completo precisa ter no mínimo 3 letras.' })
         .nonempty(),
@@ -52,6 +53,11 @@ export default async function handler(
         name,
         username,
       },
+    })
+
+    setCookie({ res }, '@ignitecall:userId', user.id, {
+      maxAge: 60 * 60 * 24 * 7, // 7 days
+      path: '/',
     })
 
     return res.status(201).json(user)
